@@ -5,11 +5,6 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relatorio_certificados", "Relatorio Aniversariantes\Relatorio_certificados.csproj", "{56569E2E-E64E-417E-97B3-3430A6018028}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{05CAB177-6600-4DD7-982F-6FB7D1C886D4}"
-	ProjectSection(SolutionItems) = preProject
-		Certificados.cs = Certificados.cs
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
