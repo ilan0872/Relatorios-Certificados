@@ -35,7 +35,7 @@
             this.comboBoxStatus = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.dataGridAtendimentos = new System.Windows.Forms.DataGridView();
+            this.dgvCertificados = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -65,7 +65,7 @@
             this.btnPDF = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridAtendimentos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCertificados)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -124,36 +124,36 @@
             this.tabControl1.Location = new System.Drawing.Point(7, 108);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(894, 266);
+            this.tabControl1.Size = new System.Drawing.Size(894, 300);
             this.tabControl1.TabIndex = 41;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.dataGridAtendimentos);
+            this.tabPage1.Controls.Add(this.dgvCertificados);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(886, 240);
+            this.tabPage1.Size = new System.Drawing.Size(886, 274);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Dados";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // dataGridAtendimentos
+            // dgvCertificados
             // 
-            this.dataGridAtendimentos.AllowUserToAddRows = false;
-            this.dataGridAtendimentos.AllowUserToDeleteRows = false;
-            this.dataGridAtendimentos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridAtendimentos.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dataGridAtendimentos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridAtendimentos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridAtendimentos.Location = new System.Drawing.Point(3, 3);
-            this.dataGridAtendimentos.MultiSelect = false;
-            this.dataGridAtendimentos.Name = "dataGridAtendimentos";
-            this.dataGridAtendimentos.ReadOnly = true;
-            this.dataGridAtendimentos.RowHeadersWidth = 51;
-            this.dataGridAtendimentos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridAtendimentos.Size = new System.Drawing.Size(880, 234);
-            this.dataGridAtendimentos.TabIndex = 13;
+            this.dgvCertificados.AllowUserToAddRows = false;
+            this.dgvCertificados.AllowUserToDeleteRows = false;
+            this.dgvCertificados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvCertificados.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvCertificados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCertificados.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvCertificados.Location = new System.Drawing.Point(3, 3);
+            this.dgvCertificados.MultiSelect = false;
+            this.dgvCertificados.Name = "dgvCertificados";
+            this.dgvCertificados.ReadOnly = true;
+            this.dgvCertificados.RowHeadersWidth = 51;
+            this.dgvCertificados.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvCertificados.Size = new System.Drawing.Size(880, 268);
+            this.dgvCertificados.TabIndex = 13;
             // 
             // tabPage2
             // 
@@ -164,7 +164,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(886, 251);
+            this.tabPage2.Size = new System.Drawing.Size(886, 274);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Opções de emissão";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -327,6 +327,7 @@
             this.buttoncarregar.TabIndex = 42;
             this.buttoncarregar.Text = "CARREGAR";
             this.buttoncarregar.UseVisualStyleBackColor = false;
+            this.buttoncarregar.Click += new System.EventHandler(this.buttoncarregar_Click);
             // 
             // label7
             // 
@@ -334,7 +335,7 @@
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(89, 386);
+            this.label7.Location = new System.Drawing.Point(89, 420);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(228, 17);
             this.label7.TabIndex = 47;
@@ -347,7 +348,7 @@
             this.labelHoras.AutoSize = true;
             this.labelHoras.BackColor = System.Drawing.Color.Transparent;
             this.labelHoras.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelHoras.Location = new System.Drawing.Point(29, 386);
+            this.labelHoras.Location = new System.Drawing.Point(29, 420);
             this.labelHoras.Name = "labelHoras";
             this.labelHoras.Size = new System.Drawing.Size(51, 17);
             this.labelHoras.TabIndex = 46;
@@ -360,7 +361,7 @@
             this.labelQuantidadeAtendimentos.AutoSize = true;
             this.labelQuantidadeAtendimentos.BackColor = System.Drawing.Color.Transparent;
             this.labelQuantidadeAtendimentos.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelQuantidadeAtendimentos.Location = new System.Drawing.Point(400, 384);
+            this.labelQuantidadeAtendimentos.Location = new System.Drawing.Point(400, 418);
             this.labelQuantidadeAtendimentos.Name = "labelQuantidadeAtendimentos";
             this.labelQuantidadeAtendimentos.Size = new System.Drawing.Size(184, 19);
             this.labelQuantidadeAtendimentos.TabIndex = 45;
@@ -370,7 +371,7 @@
             // 
             this.quantidadeCertificados.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.quantidadeCertificados.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.quantidadeCertificados.Location = new System.Drawing.Point(588, 384);
+            this.quantidadeCertificados.Location = new System.Drawing.Point(588, 418);
             this.quantidadeCertificados.Margin = new System.Windows.Forms.Padding(2);
             this.quantidadeCertificados.Name = "quantidadeCertificados";
             this.quantidadeCertificados.ReadOnly = true;
@@ -445,7 +446,7 @@
             this.btnExcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExcel.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 10F);
             this.btnExcel.ForeColor = System.Drawing.Color.White;
-            this.btnExcel.Location = new System.Drawing.Point(723, 380);
+            this.btnExcel.Location = new System.Drawing.Point(723, 414);
             this.btnExcel.Name = "btnExcel";
             this.btnExcel.Size = new System.Drawing.Size(84, 27);
             this.btnExcel.TabIndex = 53;
@@ -459,7 +460,7 @@
             this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPDF.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 10F);
             this.btnPDF.ForeColor = System.Drawing.Color.White;
-            this.btnPDF.Location = new System.Drawing.Point(813, 380);
+            this.btnPDF.Location = new System.Drawing.Point(813, 414);
             this.btnPDF.Name = "btnPDF";
             this.btnPDF.Size = new System.Drawing.Size(84, 27);
             this.btnPDF.TabIndex = 54;
@@ -470,7 +471,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(918, 412);
+            this.ClientSize = new System.Drawing.Size(918, 446);
             this.Controls.Add(this.btnExcel);
             this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.label3);
@@ -488,11 +489,12 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.Name = "RelatorioCertificados";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CERTIFICADOS";
             this.Load += new System.EventHandler(this.RelatorioCertificados_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridAtendimentos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCertificados)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -512,7 +514,7 @@
         private System.Windows.Forms.ComboBox comboBoxStatus;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.DataGridView dataGridAtendimentos;
+        private System.Windows.Forms.DataGridView dgvCertificados;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;

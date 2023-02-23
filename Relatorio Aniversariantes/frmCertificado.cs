@@ -1,5 +1,6 @@
 ﻿using Relatorio_Certificados;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 
@@ -25,6 +26,7 @@ namespace Relatorio_Certtificado
             CarregaValidadeCertificado();
             comboBoxMes.SelectedIndex = 0;
             CarregaTipoCertificado();
+            AddColunasTabela();
         }
 
         // carrega o status do certificado se ele esta ativo ou vencido.
@@ -61,6 +63,42 @@ namespace Relatorio_Certtificado
             this.labelHoras.Text = DateTime.Now.ToString("HH:mm:ss");
         }
 
-      
+        private void buttoncarregar_Click(object sender, EventArgs e)
+        {
+            GridCertificados(repositorioCertificados.GetCertificados());
+            quantidadeCertificados.Text = repositorioCertificados.QuantidadeCertificados.ToString();
+        }
+
+        private void AddColunasTabela()
+        {
+            dataTable.Columns.Add("Codigo Empresa", typeof(string));
+            dataTable.Columns.Add("Filial", typeof(string));
+            dataTable.Columns.Add("Nome Empresa", typeof(string));
+            dataTable.Columns.Add("Válido", typeof(string));
+            dataTable.Columns.Add("Tipo", typeof(string));
+            dataTable.Columns.Add("Vencimento", typeof(string));
+        }
+
+        private void DadosDataTable(IEnumerable<Certificados> certificados)
+        {
+            dataTable.Clear();
+            foreach (Certificados certificado in certificados)
+            {
+                dataTable.Rows.Add(certificado.CodigoEmpresa, certificado.Filial, certificado.NomeEmpresa, certificado.Valido, certificado.Tipo, certificado.DataDeVencimento);
+            }
+        }
+
+        private void GridCertificados(IEnumerable<Certificados> certificados)
+        {
+            DadosDataTable(certificados);
+            bindingSource1.DataSource = dataTable;
+            dgvCertificados.DataSource = bindingSource1;
+
+            dgvCertificados.Columns[0].Width = 50;
+            dgvCertificados.Columns[1].Width = 30;
+            dgvCertificados.Columns[3].Width = 40;
+            dgvCertificados.Columns[4].Width = 30;
+            dgvCertificados.Columns[5].Width = 100;
+        }
     }
 }

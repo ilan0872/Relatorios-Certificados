@@ -50,7 +50,7 @@ namespace Relatorio_Certificados
 
         // 
         public DataTable GetMes()
-        {   
+        {
 
             DataTable dataTable = new DataTable();
 
@@ -63,7 +63,6 @@ namespace Relatorio_Certificados
             NpgsqlDataAdapter Adpt = new NpgsqlDataAdapter(consultaMes, pgsqlConnection);
             Adpt.Fill(dataTable);
             return dataTable;
-
         }
 
         // Pega na tabela do banco de dados qual o tipo do certificado A1, A3 e CPF.
@@ -81,6 +80,46 @@ namespace Relatorio_Certificados
             NpgsqlDataAdapter Adpt = new NpgsqlDataAdapter(consultaTipoCertificado, pgsqlConnection);
             Adpt.Fill(dataTable);
             return dataTable;
+        }
+
+        public IEnumerable<Certificados> GetCertificados()
+        {
+            DataTable dataTable = new DataTable();
+            pgsqlConnection = new NpgsqlConnection(ConnString);
+            pgsqlConnection.Open();
+
+            string consultaCertificados = @"SELECT EMPRESAS.CODIGOEMPRESA, EMPRESAS.FILIAL, 
+                                            CASE
+	                                            WHEN CERTIFICADOS.VALIDO = 'true' THEN 'ATIVO'
+	                                            WHEN CERTIFICADOS.VALIDO = 'false' THEN 'INATIVO'
+                                            END AS VALIDO, 
+                                            EMPRESAS.NOMEEMPRESA, CERTIFICADOS.TIPO, CERTIFICADOS.DATAVENCIMENTO
+                                            FROM CERTIFICADOS
+                                            INNER JOIN EMPRESAS ON EMPRESAS.IDEMPRESA = CERTIFICADOS.IDEMPRESA
+                                            ORDER BY 1, 2 ";
+
+            NpgsqlDataAdapter Adpt = new NpgsqlDataAdapter(consultaCertificados, pgsqlConnection);
+            Adpt.Fill(dataTable);
+
+            List<Certificados> certificados = new List<Certificados>();
+
+            for (int i = 0; i < dataTable.Rows.Count; i++)
+            {
+                var certificado = new Certificados()
+                {
+                    CodigoEmpresa = (int)(dataTable.Rows[i][0]),
+                    Filial = (int)dataTable.Rows[i][1],
+                    Valido = dataTable.Rows[i][2].ToString(),
+                    NomeEmpresa = dataTable.Rows[i][3].ToString(),
+                    Tipo = dataTable.Rows[i][4].ToString(),
+                    DataDeVencimento = dataTable.Rows[i][5].ToString().Substring(0, 10)
+                };
+                certificados.Add(certificado);
+            }
+            QuantidadeCertificados = certificados.Count;
+            ListaCertificados = certificados;
+
+            return ListaCertificados;
         }
     }
 }
