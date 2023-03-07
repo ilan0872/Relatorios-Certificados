@@ -82,11 +82,21 @@ namespace Relatorio_Certificados
             return dataTable;
         }
 
-        public IEnumerable<Certificados> GetCertificados()
+        // Consulta na tabela 
+        public IEnumerable<Certificados> GetCertificados(string status, string mes, string tipo)
         {
             DataTable dataTable = new DataTable();
             pgsqlConnection = new NpgsqlConnection(ConnString);
             pgsqlConnection.Open();
+
+            if (status.Equals("ATIVO"))
+            {
+                status = "true";
+            }
+            else if (status.Equals("INATIVO"))
+            {
+                status = "false";
+            }
 
             string consultaCertificados = @"SELECT EMPRESAS.CODIGOEMPRESA, EMPRESAS.FILIAL, 
                                             CASE
@@ -95,11 +105,27 @@ namespace Relatorio_Certificados
                                             END AS VALIDO, 
                                             EMPRESAS.NOMEEMPRESA, CERTIFICADOS.TIPO, CERTIFICADOS.DATAVENCIMENTO
                                             FROM CERTIFICADOS
-                                            INNER JOIN EMPRESAS ON EMPRESAS.IDEMPRESA = CERTIFICADOS.IDEMPRESA
-                                            ORDER BY 1, 2 ";
+                                            INNER JOIN EMPRESAS ON EMPRESAS.IDEMPRESA = CERTIFICADOS.IDEMPRESA 
+                                            ";
+            
+          
+           if (status !="<Todos>" && mes != "<Todos>")
+           {
+                var data = new DateTime(DateTime.Now.Year, Convert.ToInt32(mes), 01);
+                var ultimoDia = DateTime.DaysInMonth(data.Year, data.Month);
+                consultaCertificados += $@"WHERE CERTIFICADOS.VALIDO = '{status}' AND CERTIFICADOS.DATAVENCIMENTO
+                                           BETWEEN '{DateTime.Now.Year}-{mes}-01' AND '{DateTime.Now.Year}-{mes}-{ultimoDia}'";
+           }
+           else if (status  != "<Todos>"  && tipo =="<Todos>" && mes =="<Todos>")
+          {
+             consultaCertificados += $@"WHERE CERTIFICADOS.VALIDO = '{status}' ";
+          }
 
-            NpgsqlDataAdapter Adpt = new NpgsqlDataAdapter(consultaCertificados, pgsqlConnection);
-            Adpt.Fill(dataTable);
+            consultaCertificados += "ORDER BY 1, 2 ";
+
+
+           NpgsqlDataAdapter Adpt = new NpgsqlDataAdapter(consultaCertificados, pgsqlConnection);
+           Adpt.Fill(dataTable);
 
             List<Certificados> certificados = new List<Certificados>();
 
