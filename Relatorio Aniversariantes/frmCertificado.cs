@@ -65,7 +65,61 @@ namespace Relatorio_Certtificado
 
         private void buttoncarregar_Click(object sender, EventArgs e)
         {
-            GridCertificados(repositorioCertificados.GetCertificados());
+            string status = comboBoxStatus.Text;
+            string tipo = comboBoxTipo.Text;
+            string mes = comboBoxMes.Text;
+
+            if (mes.Equals("JANEIRO"))
+            {
+                mes = "01";
+            }
+            else if (mes.Equals("FEVEREIRO"))
+            {
+                mes = "02";
+            }
+            else if (mes.Equals("MARÇO"))
+            {
+                mes = "03";
+            }
+            else if (mes.Equals("ABRIL"))
+            {
+                mes = "04";
+            }
+            else if (mes.Equals("MAIO"))
+            {
+                mes = "05";
+            }
+            else if (mes.Equals("JUNHO"))
+            {
+                mes = "06";
+            }
+            else if (mes.Equals("JULHO"))
+            {
+                mes = "07";
+            }
+            else if (mes.Equals("AGOSTO"))
+            {
+                mes = "08";
+            }
+            else if (mes.Equals("SETEMBRO"))
+            {
+                mes = "09";
+            }
+
+            else if (mes.Equals("OUTUBRO"))
+            {
+                mes = "10";
+            }
+            else if (mes.Equals("NOVEMBRO"))
+            {
+                mes = "11";
+            }
+            else if (mes.Equals("DEZEMBRO"))
+            {
+                mes = "12";
+            }
+
+            GridCertificados(repositorioCertificados.GetCertificados(status, mes, tipo));
             quantidadeCertificados.Text = repositorioCertificados.QuantidadeCertificados.ToString();
         }
 
