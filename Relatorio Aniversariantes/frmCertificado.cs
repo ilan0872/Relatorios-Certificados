@@ -1,4 +1,6 @@
-﻿using Relatorio_Certificados;
+﻿using Npgsql.Replication;
+using Relatorio_Aniversariantes;
+using Relatorio_Certificados;
 using System;
 using System.Collections.Generic;
 using System.Data;

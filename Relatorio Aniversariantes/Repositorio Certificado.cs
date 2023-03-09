@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Relatorio_Certificados
 {
@@ -36,7 +33,7 @@ namespace Relatorio_Certificados
 
             string consultaValidadeCertificados = @"SELECT DISTINCT  
                                                         case 
-	                                                        when valido = 'false' then 'INATIVO'
+	                                                        when valido = 'false' then 'VENCIDO'
 	                                                        when valido = 'true' then 'ATIVO'
                                                         end as valido
                                                         FROM certificados 
@@ -89,39 +86,77 @@ namespace Relatorio_Certificados
             pgsqlConnection = new NpgsqlConnection(ConnString);
             pgsqlConnection.Open();
 
-            if (status.Equals("ATIVO"))
-            {
-                status = "true";
-            }
-            else if (status.Equals("INATIVO"))
-            {
-                status = "false";
-            }
+            string vencidos = status;
+            status = "true";
+
 
             string consultaCertificados = @"SELECT EMPRESAS.CODIGOEMPRESA, EMPRESAS.FILIAL, 
                                             CASE
-	                                            WHEN CERTIFICADOS.VALIDO = 'true' THEN 'ATIVO'
-	                                            WHEN CERTIFICADOS.VALIDO = 'false' THEN 'INATIVO'
+	                                            WHEN CERTIFICADOS.DATAVENCIMENTO > CURRENT_DATE  THEN 'ATIVO'
+	                                            WHEN CERTIFICADOS.DATAVENCIMENTO < CURRENT_DATE  THEN 'VENCIDO'
                                             END AS VALIDO, 
                                             EMPRESAS.NOMEEMPRESA, CERTIFICADOS.TIPO, CERTIFICADOS.DATAVENCIMENTO
                                             FROM CERTIFICADOS
                                             INNER JOIN EMPRESAS ON EMPRESAS.IDEMPRESA = CERTIFICADOS.IDEMPRESA 
+                                            WHERE CERTIFICADOS.VALIDO = 'true'
                                             ";
             
           
-           if (status !="<Todos>" && mes != "<Todos>")
+           if (vencidos != "<Todos>" && mes != "<Todos>" && tipo != "<Todos>")
            {
                 var data = new DateTime(DateTime.Now.Year, Convert.ToInt32(mes), 01);
                 var ultimoDia = DateTime.DaysInMonth(data.Year, data.Month);
-                consultaCertificados += $@"WHERE CERTIFICADOS.VALIDO = '{status}' AND CERTIFICADOS.DATAVENCIMENTO
-                                           BETWEEN '{DateTime.Now.Year}-{mes}-01' AND '{DateTime.Now.Year}-{mes}-{ultimoDia}'";
+                consultaCertificados += $@" AND CERTIFICADOS.VALIDO = '{status}' AND CERTIFICADOS.DATAVENCIMENTO
+                                           BETWEEN '{DateTime.Now.Year}-{mes}-01' AND '{DateTime.Now.Year}-{mes}-{ultimoDia}' AND CERTIFICADOS.TIPO = '{tipo}' ";
            }
-           else if (status  != "<Todos>"  && tipo =="<Todos>" && mes =="<Todos>")
-          {
-             consultaCertificados += $@"WHERE CERTIFICADOS.VALIDO = '{status}' ";
-          }
+           else if (vencidos != "<Todos>" && mes != "<Todos>" && tipo == "<Todos>")
+           {
+                var data = new DateTime(DateTime.Now.Year, Convert.ToInt32(mes), 01);
+                var ultimoDia = DateTime.DaysInMonth(data.Year, data.Month);
+                consultaCertificados += $@" AND CERTIFICADOS.VALIDO = '{status}' AND CERTIFICADOS.DATAVENCIMENTO
+                                           BETWEEN '{DateTime.Now.Year}-{mes}-01' AND '{DateTime.Now.Year}-{mes}-{ultimoDia}' ";
+           }
+           else if (vencidos != "<Todos>" && mes == "<Todos>" && tipo != "<Todos>")
+           {
+                if (vencidos != "ATIVO")
+                {
+                    consultaCertificados += $@" AND CERTIFICADOS.VALIDO = '{status}' AND CERTIFICADOS.DATAVENCIMENTO < CURRENT_DATE AND CERTIFICADOS.TIPO = '{tipo}' ";
+                }
+                else
+                {
+                    consultaCertificados += $@" AND CERTIFICADOS.VALIDO = '{status}' AND CERTIFICADOS.DATAVENCIMENTO > CURRENT_DATE AND CERTIFICADOS.TIPO = '{tipo}' ";
+                }
+           }
+           else if (status == "<Todos>" && mes != "<Todos>" && tipo != "<Todos>")
+           {
+               var data = new DateTime(DateTime.Now.Year, Convert.ToInt32(mes), 01);
+               var ultimoDia = DateTime.DaysInMonth(data.Year, data.Month);
+               consultaCertificados += $@" AND CERTIFICADOS.DATAVENCIMENTO BETWEEN '{DateTime.Now.Year}-{mes}-01' AND '{DateTime.Now.Year}-{mes}-{ultimoDia}' 
+                                          AND CERTIFICADOS.TIPO = '{tipo}' ";
+           }
+           else if (vencidos != "<Todos>" && mes == "<Todos>" && tipo == "<Todos>")
+           {
+                if (vencidos != "ATIVO")
+                {
+                    consultaCertificados += $@" AND CERTIFICADOS.VALIDO = '{status}' AND CERTIFICADOS.DATAVENCIMENTO < CURRENT_DATE ";
+                }
+                else
+                {
+                    consultaCertificados += $@" AND CERTIFICADOS.VALIDO = '{status}' AND CERTIFICADOS.DATAVENCIMENTO > CURRENT_DATE ";
+                }
+           }
+           else if (vencidos == "<Todos>" && mes != "<Todos>" && tipo == "<Todos>")
+           {
+               var data = new DateTime(DateTime.Now.Year, Convert.ToInt32(mes), 01);
+               var ultimoDia = DateTime.DaysInMonth(data.Year, data.Month);
+               consultaCertificados += $@" AND CERTIFICADOS.DATAVENCIMENTO BETWEEN '{DateTime.Now.Year}-{mes}-01' AND '{DateTime.Now.Year}-{mes}-{ultimoDia}' ";
+           }
+           else if (vencidos == "<Todos>" && mes == "<Todos>" && tipo != "<Todos>")
+           {
+                consultaCertificados += $@" AND CERTIFICADOS.TIPO = '{tipo}' ";
+            }
 
-            consultaCertificados += "ORDER BY 1, 2 ";
+                consultaCertificados += "ORDER BY 1, 2 ";
 
 
            NpgsqlDataAdapter Adpt = new NpgsqlDataAdapter(consultaCertificados, pgsqlConnection);
